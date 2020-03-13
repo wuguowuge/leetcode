@@ -96,3 +96,38 @@ class Solution{
 ```
 
 -----
+-----
+
+### 2、平衡二叉树
+
+输入一棵二叉树，判断是否是平衡二叉树。
+
+C++版本
+
+最直接的做法，遍历每个结点，借助一个获取树深度的递归函数，根据该结点的左右子树高度差判断是否平衡，然后递归地对左右子树进行判断。 
+```javascript
+class Solution {
+public:
+    bool IsBalanced_Solution(TreeNode* pRoot) {
+        if(pRoot==NULL)
+            return true;
+        int left=deep(pRoot->left);
+        int right=deep(pRoot->right);
+        int diff=left-right;
+        if(diff>1||diff<-1)
+            return false;
+        return IsBalanced_Solution(pRoot->left)&&IsBalanced_Solution(pRoot->right);
+    }
+//求节点高度
+private:
+    int deep(TreeNode* pRoot)
+    {
+        if(pRoot==NULL)
+            return 0;
+        int left=deep(pRoot->left);
+        int right=deep(pRoot->right);
+        
+        return (left>right)?left+1:right+1;
+    }
+};
+```
