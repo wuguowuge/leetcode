@@ -135,3 +135,25 @@ private:
 ```
 
 - 改为从下往上遍历，如果子树是平衡二叉树，则返回子树的高度；如果发现子树不是平衡二叉树，则直接停止遍历，这样至多只对每个结点访问一次；
+```javascript
+class Solution {
+public:
+    bool IsBalanced_Solution(TreeNode* pRoot){
+        
+    }
+private:
+    int deep(TreeNode* pRoot)
+    {
+        if(pRoot==NULL)
+            return 0;
+        int left = deep(pRoot->left)
+        if(left==-1)
+            return -1;
+        int right = deep(pRoot->right)
+        if(right==-1)
+            return -1;
+        return abs(left-right)>1?-1:1+max(left,right);
+    }
+    
+}
+```
