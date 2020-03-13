@@ -139,7 +139,7 @@ private:
 class Solution {
 public:
     bool IsBalanced_Solution(TreeNode* pRoot){
-        
+        return deep(pRoot)!=-1;
     }
 private:
     int deep(TreeNode* pRoot)
