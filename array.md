@@ -48,6 +48,9 @@ public:
 - 题解：
 	给定一个数组 array[1, 4, -5, 9, 8, 3, -6]，在这个数字中有多个子数组，子数组和最大的应该是：[9, 8, 3]，输出20，再比如数组为[1, -2, 3, 10, -4, 7, 2, -5]，和最大的子数组为[3, 10, -4, 7, 2]，输出18。
 
+
+C++版本：
+
 ```c++
 class Solution {
 public:
@@ -65,5 +68,26 @@ public:
 };
 ```
 
+python版本：
 
+```pyhton
+# -*- coding:utf-8 -*-
+class Solution:
+    def FindGreatestSumOfSubArray(self, array):
+        # write code here
+        length = len(array)
+        if(length == 0):
+            return 0
+        else:
+            max_num = array[0]
+            temp_sum = array[0]
+            for i in range(1,length):
+                if temp_sum <= 0:
+                    temp_sum = array[i]
+                else:
+                    temp_sum += array[i]
+                if temp_sum > max_num:
+                    max_num = temp_sum
+            return max_num
+```
 
