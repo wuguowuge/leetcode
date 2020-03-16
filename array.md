@@ -70,8 +70,7 @@ public:
 
 python版本：
 
-```pyhton
-# -*- coding:utf-8 -*-
+```python
 class Solution:
     def FindGreatestSumOfSubArray(self, array):
         # write code here
