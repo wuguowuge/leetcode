@@ -12,7 +12,7 @@
 
     双指针技术，就是相当于有一个窗口，窗口的左右两边就是两个指针，我们根据窗口内值之和来确定窗口的位置和宽度。非常牛逼的思路，虽然双指针或者所谓的滑动窗口技巧还是蛮常见的，但是这一题还真想不到这个思路
 
-```javascript
+```c++
 class Solution {
 public:
     vector<vector<int> > FindContinuousSequence(int sum) {
