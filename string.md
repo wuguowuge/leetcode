@@ -36,3 +36,36 @@ class Solution:
  
         return " ".join(s.split(" ")[::-1])
 ```
+
+---
+
+### 2、循环左移
+abcXYZdef --> abcXYZdef
+
+C++版本
+
+- 思路：
+    str.substr(pos, n) 返回一个字符串，包含s中从下标pos开始的n个字符
+```c++
+class Solution {
+public:
+    string LeftRotateString(string str, int n) {
+        int len = str.length();
+        if(len == 0) return "";
+        n = n % len;
+        str += str;
+        return str.substr(n, len);
+    }
+};
+```
+
+python版本
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def LeftRotateString(self, s, n):
+        # write code here
+        return s[n:]+s[:n]
+```
+
