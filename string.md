@@ -25,6 +25,9 @@ public:
 }; 
 ```
 
+
+python版本
+
 - 思路
     [::-1]就是返回反转后的list。list的成员reverse可以，不过只是反转list而不会返回反转之后的list，那样要写成两个语句了
     这是python的slice语法, 可以理解为[begin, end, step], step为步长。当指定step而不指定begin和end时，会根据step的正负来正向或反向地遍历所有元素。
