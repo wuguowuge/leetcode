@@ -110,12 +110,12 @@ class Solution:
             vector<int> array<n>;
             int i = -1,step=0,count=n;
             while(count>0){
-                i++;
-                if(i>n) i=0;
-                if(array[i]==-1) continue;
-                step++;
+                i++; //为了计算n
+                if(i>n) i=0; //模仿环
+                if(array[i]==-1) continue; //如果遇到-1，说明已经出局，pass
+                step++;  //为了计算m
                 if(step==m){
-                    array[i]=-1;
+                    array[i]=-1; 
                     step = 0;
                     count--;
                 }
