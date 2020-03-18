@@ -94,3 +94,40 @@ class Solution:
 
 ### 3、约瑟夫环问题
 随机指定一个数m,让编号为0的小朋友开始报数。每次喊到m-1的那个小朋友要出列唱首歌,然后可以在礼品箱中任意的挑选礼物,并且不再回到圈中,从他的下一个小朋友开始,继续0...m-1报数....这样下去....直到剩下最后一个，求最后一个的位置。
+
+
+- 思路：
+    利用数组模仿环，进行操作；
+ 
+ C++版本
+ 
+ ```javascript
+ class Solution{
+    public:
+        int LastRemaining(unsigned int n, unsigned int m)
+        {
+            if(n<1 || m<1){
+                return -1;
+            }
+            vector<int> array<5>;
+            int i = -1,step=0,count=n;
+            while(count>0){
+                i++;
+                if(i>n){
+                    i=0;
+                }
+                if(array[i]==-1){
+                    continue;
+                }
+                step++;
+                if(step==m){
+                    array[i]=-1;
+                    step = 0;
+                    count--;
+                }
+                    
+            }
+        }
+        return i;
+ }
+```
