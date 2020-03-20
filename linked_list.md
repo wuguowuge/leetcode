@@ -28,4 +28,26 @@
     化简可得：a=(k-1)(b+c)+c 这个式子的意思是： 链表头到环入口的距离=相遇点到环入口的距离+（k-1）圈环长度。其中k>=1,所以k-1>=0圈。所以两个指针分别从链表头和相遇点出发，最后一定相遇于环入口。 
                  
                 
-    
+C++版本：
+```c++
+class Solution {
+public:
+    ListNode* EntryNodeOfLoop(ListNode* pHead)
+    {
+        ListNode*fast=pHead,*low=pHead;
+        while(fast&&fast->next){
+            fast=fast->next->next;
+            low=low->next;
+            if(fast==low)
+                break;
+        }
+        if(!fast||!fast->next)return NULL;
+        low=pHead;//low从链表头出发
+        while(fast!=low){//fast从相遇点出发
+            fast=fast->next;
+            low=low->next;
+        }
+        return low;
+    }
+};
+```
