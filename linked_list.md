@@ -60,7 +60,7 @@ public:
     - 头结点可能会被删除，所以需新创建一个节点；
     - 设置 pre ，last 指针， pre指针指向当前确定不重复的那个节点，而last指针相当于工作指针，一直往后面搜索；
     
-```javascript
+```c++
 /*
 struct ListNode {
     int val;
