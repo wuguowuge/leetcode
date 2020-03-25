@@ -168,6 +168,9 @@ public:
     左子树的右子树和右子树的左子树相同即可，采用递归；   
     非递归也可，采用栈或队列存取各级子树根节点；   
     
+    
+递归版本：
+
 ```javascript
 /*
 struct TreeNode {
@@ -204,5 +207,45 @@ public:
  
 };
 ```
-    
+
+非递归版本：
+
+// 只要采用前序、中序、后序、层次遍历等任何一种遍历方法，分为先左后右和先
+右后左两种方法，只要两次结果相等就说明这棵树是一颗对称二叉树。
+```javascript
+
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if(root==NULL) return true;
+        queue<TreeNode*> q1,q2;
+        TreeNode *left,*right;
+        q1.push(root->left);
+        q2.push(root->right);
+        while(!q1.empty() and !q2.empty())
+        {
+            left = q1.front();
+            q1.pop();
+            right = q2.front();
+            q2.pop();
+            //两边都是空
+            if(NULL==left && NULL==right)
+                continue;
+            //只有一边是空
+            if(NULL==left||NULL==right)
+                return false;
+             if (left->val != right->val)
+                return false;
+            q1.push(left->left);
+            q1.push(left->right);
+            q2.push(right->right);
+            q2.push(right->left);
+        }
+         
+        return true;
+         
+    }
+};
+```
+
  
