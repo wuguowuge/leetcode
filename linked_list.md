@@ -159,3 +159,50 @@ public:
     }
 };
 ```
+
+
+### 4、镜像/对称二叉树
+
+- 思路:
+    首先根节点以及其左右子树，左子树的左子树和右子树的右子树相同；   
+    左子树的右子树和右子树的左子树相同即可，采用递归；   
+    非递归也可，采用栈或队列存取各级子树根节点；   
+    
+```javascript
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+*/
+/*
+思路：如果先序遍历的顺序分为两种先左后右和先右后左两种顺序遍历，如果两者相等说明二叉树是对称的二叉树
+ 
+*/
+class Solution {
+public:
+    bool isSymmetrical(TreeNode* pRoot)
+    {
+        return isSymmetrical(pRoot,pRoot);
+    }
+     
+    bool isSymmetrical(TreeNode* pRoot1,TreeNode* pRoot2)
+    {
+        if(pRoot1==NULL&&pRoot2==NULL)
+            return true;
+        if(pRoot1==NULL || pRoot2==NULL)           
+            return false;
+        if(pRoot1->val!=pRoot2->val)
+            return false;
+        return isSymmetrical(pRoot1->left,pRoot2->right) && isSymmetrical(pRoot1->right,pRoot2->left);
+         
+    }
+ 
+};
+```
+    
+ 
