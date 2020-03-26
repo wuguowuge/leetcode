@@ -300,3 +300,66 @@ public:
 };
 ```
 
+### 5、之字形打印二叉树
+
+请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。
+
+- 思路：
+    打印第一层结点的时候要把第二层结点保存到一个容器里，由于打印第二层结点的顺序是从右至左，容器为后进先出，故容器为栈
+打印第一层时，依次把第一层的左子结点和右子结点保存到栈中；打印第二层结点时要把第三层结点保存到栈中，由于第三层打印顺序为从左到右，
+故保存到容器中的顺序为先右结点后左结点，和第一层是不一样，因此我们需要两个栈来分别保存奇数层和偶数层结点
+
+C++版本
+
+```javascript
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :val(x), left(NULL), right(NULL) {}
+};
+ 
+class Solution {
+public:
+	vector<vector<int> > Print(TreeNode* pRoot) {
+		vector<vector<int>> Value{};
+		if (pRoot == NULL)
+			return Value; 
+		stack<TreeNode*> levels[2];                   //levels[0]用来保存奇数层结点，levels[1]用来保存偶数层结点
+		vector<int> currentLevel{};                   //用来存储当前层所有结点的值
+		int current = 0;                              //0表示当前遍历的是奇数层，1表示当前遍历的是偶数层
+		int next = 1;
+		levels[current].push(pRoot);
+		while (!levels[0].empty() || !levels[1].empty())
+		{
+			TreeNode* pNode = levels[current].top();
+			levels[current].pop();
+			currentLevel.push_back(pNode->val);
+			if (current == 0)                     //如果当前遍历的是奇数层，依次将其左子结点和右子结点保存在levels[1]中
+			{
+				if (pNode->left != NULL)                       
+					levels[next].push(pNode->left);
+				if (pNode->right != NULL)
+					levels[next].push(pNode->right);
+			}
+			else                                  //如果当前遍历的是偶数层，依次将其左子结点和右子结点保存在levels[0]中
+			{
+				if (pNode->right != NULL)
+					levels[next].push(pNode->right);
+				if (pNode->left != NULL)
+					levels[next].push(pNode->left);
+			}
+			if (levels[current].empty())
+			{
+				current = 1 - current;
+				next = 1 - next;
+				Value.push_back(currentLevel);
+				currentLevel.clear();
+			}
+		}
+		return Value;
+	}
+};
+
+```
+
