@@ -157,3 +157,146 @@ private:
     
 }
 ```
+
+### 3、二叉树的下一个节点
+
+给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。 
+
+- 思路：
+    ![示意图](/img/中序遍历节点的下一个.png)
+    
+    结合图，我们可发现分成两大类：   
+    1、有右子树的，那么下个结点就是右子树最左边的点；（eg：D，B，E，A，C，G）；   
+    2、没有右子树的，也可以分成两类；   
+      a) 是父节点左孩子（eg：N，I，L） ，那么父节点就是下一个节点 ；    
+      b)是父节点的右孩子（eg：H，J，K，M）找他的父节点的父节点的父节点...直到当前结点是其父节点的左孩子位置。如果没有eg：M，那么他就是尾节点。
+
+
+```c++
+/*
+struct TreeLinkNode {
+int val;
+struct TreeLinkNode *left;
+struct TreeLinkNode *right;
+struct TreeLinkNode *next;
+TreeLinkNode(int x) :val(x), left(NULL), right(NULL), next(NULL) {
+}
+};
+*/
+//分析二叉树的下一个节点，一共有以下情况：
+//1.二叉树为空，则返回空；
+//2.节点右孩子存在，则设置一个指针从该节点的右孩子出发，一直沿着指向左子结点的指针找到的叶子节点即为下一个节点；
+//3.节点不是根节点。如果该节点是其父节点的左孩子，则返回父节点；否则继续向上遍历其父节点的父节点，重复之前的判断，返回结果。
+classSolution{
+public:
+    TreeLinkNode* GetNext(TreeLinkNode* pNode)
+    {
+        if (pNode == NULL)
+            returnNULL;
+        if (pNode->right != NULL)
+        {
+            pNode = pNode->right;
+            while (pNode->left != NULL)
+                pNode = pNode->left;
+            returnpNode;
+        }
+        while (pNode->next != NULL)
+        {
+            TreeLinkNode *proot = pNode->next;
+            if (proot->left == pNode)
+                returnproot;
+            pNode = pNode->next;
+        }
+        returnNULL;
+    }
+};
+```
+
+
+### 4、镜像/对称二叉树
+
+- 思路:
+    首先根节点以及其左右子树，左子树的左子树和右子树的右子树相同；   
+    左子树的右子树和右子树的左子树相同即可，采用递归；   
+    非递归也可，采用栈或队列存取各级子树根节点；   
+    
+    
+递归版本：
+
+```javascript
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+*/
+/*
+思路：如果先序遍历的顺序分为两种先左后右和先右后左两种顺序遍历，如果两者相等说明二叉树是对称的二叉树
+ 
+*/
+class Solution {
+public:
+    bool isSymmetrical(TreeNode* pRoot)
+    {
+        return isSymmetrical(pRoot,pRoot);
+    }
+     
+    bool isSymmetrical(TreeNode* pRoot1,TreeNode* pRoot2)
+    {
+        if(pRoot1==NULL&&pRoot2==NULL)
+            return true;
+        if(pRoot1==NULL || pRoot2==NULL)           
+            return false;
+        if(pRoot1->val!=pRoot2->val)
+            return false;
+        return isSymmetrical(pRoot1->left,pRoot2->right) && isSymmetrical(pRoot1->right,pRoot2->left);
+         
+    }
+ 
+};
+```
+
+非递归版本：
+
+只要采用前序、中序、后序、层次遍历等任何一种遍历方法，分为先左后右和先
+右后左两种方法，只要两次结果相等就说明这棵树是一颗对称二叉树。
+```javascript
+
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if(root==NULL) return true;
+        queue<TreeNode*> q1,q2;
+        TreeNode *left,*right;
+        q1.push(root->left);
+        q2.push(root->right);
+        while(!q1.empty() and !q2.empty())
+        {
+            left = q1.front();
+            q1.pop();
+            right = q2.front();
+            q2.pop();
+            //两边都是空
+            if(NULL==left && NULL==right)
+                continue;
+            //只有一边是空
+            if(NULL==left||NULL==right)
+                return false;
+             if (left->val != right->val)
+                return false;
+            q1.push(left->left);
+            q1.push(left->right);
+            q2.push(right->right);
+            q2.push(right->left);
+        }
+         
+        return true;
+         
+    }
+};
+```
+
