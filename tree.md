@@ -369,7 +369,7 @@ public:
 
 C++版本
 
-```javascript
+```c++
 class Solution {
 public:
         vector<vector<int> > Print(TreeNode* pRoot) {
