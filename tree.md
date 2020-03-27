@@ -369,7 +369,7 @@ public:
 
 C++版本
 
-```c++
+```javascript
 class Solution {
 public:
         vector<vector<int> > Print(TreeNode* pRoot) {
@@ -385,6 +385,7 @@ public:
                 vector<int> c;
                 while(lo++ < hi)
                 {
+                    //每次处理一个，就把该节点的左右子节点放入队列
                     TreeNode *t = q.front();
                     q.pop();
                     c.push_back(t->val);
