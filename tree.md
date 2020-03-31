@@ -409,5 +409,84 @@ public:
 
 二叉树的反序列化是指：根据某种遍历顺序得到的序列化字符串结果str，重构二叉树。
 
+- 思路 
+    序列化：利用vector存储序列化的值，如果遇到叶子结点则返回递归，用#表示结束，节点之间用！隔开，结果返回字符串；
+    
+C++版本
 
+```javascript
 
+typedef TreeNode node;
+typedef TreeNode* pnode;
+typedef int* pint;
+class Solution {
+    vector<int> buf;
+    void dfs(pnode p){
+        if(!p) buf.push_back(0x23333);
+        else{
+            buf.push_back(p -> val);
+            dfs(p -> left);
+            dfs(p -> right);
+        }
+    }
+    pnode dfs2(pint& p){
+        if(*p == 0x23333){
+            ++p;
+            return NULL;
+        }
+        pnode res = new node(*p);
+        ++p;
+        res -> left = dfs2(p);
+        res -> right = dfs2(p);
+        return res;
+    }
+public:
+    char* Serialize(TreeNode *p) {
+        buf.clear();
+        dfs(p);
+        int *res = new int[buf.size()];
+        for(unsigned int i = 0; i < buf.size(); ++i) res[i] = buf[i];
+        return (char*)res;
+    }
+    TreeNode* Deserialize(char *str) {
+        int *p = (int*)str;
+        return dfs2(p);
+    }
+};
+```
+
+python版本
+
+```python
+
+# -*- coding:utf-8 -*-
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    def __init__(self):
+        self.flag = -1
+         
+    def Serialize(self, root):
+        # write code here
+        if not root:
+            return '#,'
+        return str(root.val)+','+self.Serialize(root.left)+self.Serialize(root.right)
+         
+    def Deserialize(self, s):
+        # write code here
+        self.flag += 1
+        l = s.split(',')
+         
+        if self.flag >= len(s):
+            return None
+        root = None
+         
+        if l[self.flag] != '#':
+            root = TreeNode(int(l[self.flag]))
+            root.left = self.Deserialize(s)
+            root.right = self.Deserialize(s)
+        return root
+```
