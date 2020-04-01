@@ -195,3 +195,22 @@ class Solution{
     0先进入小顶堆，然后将小顶堆中最大值放入小顶堆中，此时min=[4,5,6,7],max=[3,2,1,0],avg=[(4+3)/2]=[3.50]   
     8先进入大顶堆，然后将大顶堆中最小值放入大顶堆中，此时min=[4,5,6,7,8],max=[3,2,1,0],avg=[4.00] 
 
+C++版本：
+```javascript
+
+class Solution {
+    priority_queue<int, vector<int>, less<int> > p;
+    priority_queue<int, vector<int>, greater<int> > q;
+     
+public:
+    void Insert(int num){
+        if(p.empty() || num <= p.top()) p.push(num);
+        else q.push(num);
+        if(p.size() == q.size() + 2) q.push(p.top()), p.pop();
+        if(p.size() + 1 == q.size()) p.push(q.top()), q.pop();
+    }
+    double GetMedian(){ 
+      return p.size() == q.size() ? (p.top() + q.top()) / 2.0 : p.top();
+    }
+};
+```
