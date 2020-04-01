@@ -197,7 +197,9 @@ class Solution{
 
 C++版本：
 ```javascript
-
+// 做法就是用一个大顶堆和一个小顶堆，维持大顶堆的数都小于等于小顶堆的数，且两者的个数相等或差1。平均数就在两个堆顶的数之中。
+// 不用push_heap来构建大小堆，用priority_queue，
+// 马客（Mark）
 class Solution {
     priority_queue<int, vector<int>, less<int> > p;
     priority_queue<int, vector<int>, greater<int> > q;
