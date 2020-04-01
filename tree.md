@@ -490,3 +490,36 @@ class Solution:
             root.right = self.Deserialize(s)
         return root
 ```
+
+### 8、序列二叉树第k个节点
+
+- 思路：中序遍历，存入vector
+
+```javascript
+struct TreeNode{
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x):
+        val(x),left(NULL),right(NULL){}
+};
+class Solution{
+public:
+    TreeNode* KthNode(TreeNode* pRoot, unsigned int k)
+    {
+        if(pRoot==NULL||k<=0) return NULL;
+        vector<TreeNode*> vec;
+        Inorder(pRoot,vec);
+        if(k>vec.size()) return NULL;
+        return vec[k-1];
+    }
+    void Inorder(TreeNode* pRoot, vector<TreeNode*> &vec)
+    {
+        if(pRoot==NULL) return;
+        Inorder(pRoot->left, vec);
+        vec.push_back(pRoot);
+        Inorder(pRoot->right, vec);
+    }
+   
+};
+```
