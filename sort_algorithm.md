@@ -1,6 +1,7 @@
 # **排序**
 
 ## 常见排序
+- 参考链接：https://www.cnblogs.com/Mufasa/p/10527387.html   
 
 
 ### 1、堆排序
@@ -51,3 +52,113 @@ void Heapify(int arr[], int first, int end){
     }
 }
 ```
+
+### 2、冒泡排序（bubble sort）
+
+- 思路：
+    前后比较交换   
+
+python版本
+```python
+d0 = [2, 15, 5, 9, 7, 6, 4, 12, 5, 4, 2, 64, 5, 6, 4, 2, 3, 54, 45, 4, 44]
+d0_out = [2, 2, 2, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 7, 9, 12, 15, 44, 45, 54, 64]  # 正确排序
+
+while 1:
+    state = 0  # 假设本次循环没有改变
+    for i in range(len(d0) - 1):
+        if d0[i] > d0[i + 1]:
+            d0[i], d0[i + 1] = d0[i + 1], d0[i]
+            state = 1  # 有数值交换，那么状态值置1
+    if not state:  # 如果没有数值交换，那么就跳出
+        break
+
+print(d0)
+print(d0_out)
+```
+
+### 3、选择排序
+
+- 思路：
+    选择最小的放在前边   
+
+python版本
+```python
+def select_sort(data):
+    d1 = []
+    while len(data):
+        min = [0, data[0]]
+        for i in range(len(data)):
+            if min[1] > data[i]:
+                min = [i, data[i]]
+        del data[min[0]]  # 找到剩余部分的最小值，并且从原数组中删除
+        d1.append(min[1])  # 在新数组中添加
+    return d1
+
+if __name__ == "__main__":
+    d0 = [2, 15, 5, 9, 7, 6, 4, 12, 5, 4, 2, 64, 5, 6, 4, 2, 3, 54, 45, 4, 44]  # 原始乱序
+    d0_out = [2, 2, 2, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 7, 9, 12, 15, 44, 45, 54, 64]  # 正确排序
+    d1 = select_sort(d0)
+    print(d1)
+    print(d0_out)
+```
+
+### 4、插入排序
+
+- 思路：
+    追个插入到前面的有序数组中
+    
+python版本
+
+直接插入排序
+
+```python
+def direct_insertion_sort(d):   # 直接插入排序，因为要用到后面的希尔排序，所以转成function
+    d1 = [d[0]]
+    for i in d[1:]:
+        state = 1
+        for j in range(len(d1) - 1, -1, -1):
+            if i >= d1[j]:
+                d1.insert(j + 1, i)  # 将元素插入数组
+                state = 0
+                break
+        if state:
+            d1.insert(0, i)
+    return d1
+
+
+if __name__ == "__main__":
+    d0 = [2, 15, 5, 9, 7, 6, 4, 12, 5, 4, 2, 64, 5, 6, 4, 2, 3, 54, 45, 4, 44]  # 原始乱序
+    d0_out = [2, 2, 2, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 7, 9, 12, 15, 44, 45, 54, 64]  # 正确排序
+    d1 = direct_insertion_sort(d0)
+    print(d1)
+    print(d0_out)
+```
+
+折半插入排序
+
+```python
+d0 = [2, 15, 5, 9, 7, 6, 4, 12, 5, 4, 2, 64, 5, 6, 4, 2, 3, 54, 45, 4, 44]  # 原始乱序
+d0_out = [2, 2, 2, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 7, 9, 12, 15, 44, 45, 54, 64]  # 正确排序
+
+d1 = [d0[0]]
+del d0[0]
+
+for i in d0:
+    index_now = [0, len(d1)]
+    while 1:
+        index = index_now[0] + int((index_now[1] - index_now[0]) / 2)
+        if i == d1[index]:
+            d1.insert(index+1,i)
+            break
+        elif index in index_now:  # 如果更新的index值在index_now中存在（也有可能是边界），那么就表明无法继续更新
+            d1.insert(index+1,i)
+            break
+        elif i > d1[index]:
+            index_now[0] = index
+        elif i < d1[index]:
+            index_now[1] = index
+
+print(d1)
+print(d0_out)
+```
+
