@@ -219,8 +219,7 @@ def select_sort(ary):
     5、将新元素插入到该位置后   
     6、重复步骤2~5   
     
-python版本
-
+python版本1
 直接插入排序
 
 ```python
@@ -236,7 +235,7 @@ def direct_insertion_sort(d):   # 直接插入排序，因为要用到后面的�
         if state:
             d1.insert(0, i)
     return d1
-
+  
 
 if __name__ == "__main__":
     d0 = [2, 15, 5, 9, 7, 6, 4, 12, 5, 4, 2, 64, 5, 6, 4, 2, 3, 54, 45, 4, 44]  # 原始乱序
@@ -246,6 +245,7 @@ if __name__ == "__main__":
     print(d0_out)
 ```
 
+python版本2
 折半插入排序
 
 ```python
@@ -273,4 +273,21 @@ for i in d0:
 print(d1)
 print(d0_out)
 ```
+
+python版本3
+```python
+# 插入排序
+def insert_sort(ary):
+	count = len(ary)
+	for i in range(1, count):
+		key = i - 1
+		mark = ary[i]    # 注： 必须将ary[i]赋值为mark，不能直接用ary[i]
+		while key >= 0 and ary[key] > mark:
+			ary[key+1] = ary[key]
+			key -= 1
+		ary[key+1] = mark
+	return ary
+
+```
+
 
