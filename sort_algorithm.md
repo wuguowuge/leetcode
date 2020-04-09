@@ -329,6 +329,81 @@ def insert_sort(ary):
     第四次 gap = 1 / 2 = 0 排序完成得到数组：   
     
     4 13 26 27 38 49 49 55 65 97   
+    
+```python
+
+def shell_sort(ary):
+    count = len(ary)
+    gap = round(count / 2)
+    # 双杠用于整除（向下取整），在python直接用 “/” 得到的永远是浮点数，
+    # 用round()得到四舍五入值
+    while gap >= 1:
+        for i in range(gap, count):
+            temp = ary[i]
+            j = i
+            while j - gap >= 0 and ary[j - gap] > temp:  # 到这里与插入排序一样了
+                ary[j] = ary[j - gap]
+                j -= gap
+            ary[j] = temp
+        gap = round(gap / 2)
+    return ary
+
+```
+
+
+### 6、归并排序
+
+- 思路：
+    归并排序是建立在归并操作上的一种有效的排序算法。该算法是采用分治法（Divide and Conquer）的一个非常典型的应用。   
+
+    首先考虑下如何将将二个有序数列合并。这个非常简单，只要从比较二个数列的第一个数，谁小就先取谁，取了后就在对应数列中删除这个数。然后再进行比较，如果有数列为空，那直接将另一个数列的数据依次取出即可。   
+
+- 合并方法：
+    设r[i…n]由两个有序子表r[i…m]和r[m+1…n]组成，两个子表长度分别为m-i +1、n-m。   
+```python
+1、j=m+1；k=i；i=i; //置两个子表的起始下标及辅助数组的起始下标
+2、若i>m 或j>n，转⑷ //其中一个子表已合并完，比较选取结束
+3、//选取r[i]和r[j]较小的存入辅助数组rf
+        如果r[i]<r[j]，rf[k]=r[i]； i++； k++； 转⑵
+        否则，rf[k]=r[j]； j++； k++； 转⑵
+4、//将尚未处理完的子表中元素存入rf
+        如果i<=m，将r[i…m]存入rf[k…n] //前一子表非空
+        如果j<=n ,  将r[j…n] 存入rf[k…n] //后一子表非空
+5、合并结束。
+```
+
+```python
+# 归并排序
+
+    def merge_sort(ary):
+        
+        if len(ary) <= 1:
+            return ary
+        
+        median = int(len(ary)/2)    # 二分分解
+        left = merge_sort(ary[:median])
+        right = merge_sort(ary[median:])
+        return merge(left, right)    # 合并数组
+    
+    def merge(left, right):
+     '''合并操作，
+    将两个有序数组left[]和right[]合并成一个大的有序数组'''
+        res = []
+        i = j = k = 0
+        while(i < len(left) and j < len(right)):
+            if left[i] < right[j]:
+                res.append(left[i])
+                i += 1
+            else:
+                res.append(right[j])
+                j += 1
+                
+        res = res + left[i:] + right[j:]
+        return res
+
+```
+
+
 
 
     
