@@ -403,6 +403,115 @@ def shell_sort(ary):
 
 ```
 
+### 7、快速排序（quicksort）
+
+- 思路：
+    快速排序通常明显比同为Ο(n log n)的其他算法更快，因此常被采用，而且快排采用了分治法的思想，所以在很多笔试面试中能经常看到快排的影子。可见掌握快排的重要性。
+    
+    
+- 步骤：
+    1、从数列中挑出一个元素作为基准数。   
+    2、分区过程，将比基准数大的放到右边，小于或等于它的数都放到左边。   
+    3、再对左右区间递归执行第二步，直至各区间只有一个数。   
+    
+python版本
+```python
+
+def quick_sort(ary):
+    return qsort(ary, 0, len(ary) - 1)
+
+
+def qsort(ary, start, end):
+    if start < end:
+        left = start
+        right = end
+        key = ary[start]
+    else:
+        return ary
+    while left < right:
+        while left < right and ary[right] >= key:
+            right -= 1
+        if left < right:  # 说明打破while循环的原因是ary[right] <= key
+            ary[left] = ary[right]
+            left += 1
+        while left < right and ary[left] < key:
+            left += 1
+        if left < right:  # 说明打破while循环的原因是ary[left] >= key
+            ary[right] = ary[left]
+            right -= 1
+    ary[left] = key  # 此时，left=right，用key来填坑
+
+    qsort(ary, start, left - 1)
+    qsort(ary, left + 1, end)
+    return ary
+    
+
+```
+
+C++版本
+```javascript
+#include<iostream>
+#include<stack>
+#include<vector>
+using namespace std;
+
+
+void quickSortHelper(vector<int>& nums, int begin, int end) {
+	if (begin >= end) return;
+	int left = begin;
+	int right = end;
+	int base = nums[left];
+	while (left < right) {
+		while (left < right && nums[right] >= base) {
+			right--;
+		}
+		if (left < right) {
+			nums[left] = nums[right];
+			left++;
+		}
+		while (left < right && nums[left] < base) {
+			left++;
+		}
+		if (left < right) {
+			nums[right] = nums[left];
+			right--;
+		}
+	}
+	nums[left] = base;
+	quickSortHelper(nums, begin, left - 1);
+	quickSortHelper(nums, left + 1, end);
+	return;
+}
+
+vector<int> quickSort(vector<int> nums) {
+	if (nums.size() <= 1) return nums;
+	int length = nums.size() - 1;
+	quickSortHelper(nums, 0, length);
+	return nums;
+
+}
+
+
+
+int main()
+{
+	int n;
+	cin >> n;
+	vector<int> nums(n);
+	for (int i = 0; i < n; ++i)
+	{
+		cin >> nums[i];
+	}
+	vector<int> res;
+	res = quickSort(nums);
+
+	for (auto x : res) {
+		cout << x;
+	}
+	return 0;
+}
+
+```
 
 
 
