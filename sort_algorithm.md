@@ -3,7 +3,9 @@
 ## 常见排序
 - 参考链接：
     https://www.cnblogs.com/Mufasa/p/10527387.html   
-    https://blog.csdn.net/Dby_freedom/article/details/82154869   
+    https://blog.csdn.net/Dby_freedom/article/details/82154869
+    https://blog.csdn.net/morewindows/article/details/6678165    
+       
     
 
 
@@ -402,6 +404,55 @@ def shell_sort(ary):
         return res
 
 ```
+
+```javascript
+//将有二个有序数列a[first...mid]和a[mid...last]合并。
+void mergearray(int a[], int first, int mid, int last, int temp[])
+{
+	int i = first, j = mid + 1;
+	int m = mid,   n = last;
+	int k = 0;
+	
+	while (i <= m && j <= n)
+	{
+		if (a[i] <= a[j])
+			temp[k++] = a[i++];
+		else
+			temp[k++] = a[j++];
+	}
+	
+	while (i <= m)
+		temp[k++] = a[i++];
+	
+	while (j <= n)
+		temp[k++] = a[j++];
+	
+	for (i = 0; i < k; i++)
+		a[first + i] = temp[i];
+}
+void mergesort(int a[], int first, int last, int temp[])
+{
+	if (first < last)
+	{
+		int mid = (first + last) / 2;
+		mergesort(a, first, mid, temp);    //左边有序
+		mergesort(a, mid + 1, last, temp); //右边有序
+		mergearray(a, first, mid, last, temp); //再将二个有序数列合并
+	}
+}
+ 
+bool MergeSort(int a[], int n)
+{
+	int *p = new int[n];
+	if (p == NULL)
+		return false;
+	mergesort(a, 0, n - 1, p);
+	delete[] p;
+	return true;
+}
+```
+归并排序的效率是比较高的，设数列长为N，将数列分开成小数列一共要logN步，每步都是一个合并有序数列的过程，时间复杂度可以记为O(N)，故一共为O(N*logN)。因为归并排序每次都是在相邻的数据中进行操作，所以归并排序在O(N*logN)的几种排序方法（快速排序，归并排序，希尔排序，堆排序）也是效率比较高的。
+
 
 ### 7、快速排序（quicksort）
 
