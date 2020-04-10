@@ -8,7 +8,7 @@
 重叠子问题,对每个子问题只计算一次,然后将其计算的结果保存到一个表格中,每一次需要上一个子问题解时,进行调用,只要o(1)时间复杂度,准确的说,动态规划是利用空间去换取时间的算法.      
 
 
-## python版本
+## 基础题目
 
 ### 1、爬楼梯
 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
@@ -43,7 +43,7 @@ https://leetcode-cn.com/explore/interview/card/top-interview-questions-easy/23/d
         最优子结构:F(10)的最优子结构即F(9)和F(8)     
         状态转移函数:F(n)=F(n-1)+F(n-2)      
         
-- 代码：
+- python 非递归：
 ```python
 class Solution(object):
     def climbStairs(self, n):
@@ -62,4 +62,71 @@ class Solution(object):
             a=b　　　　　　　　#最优子结构
             b=temp　　　　　　#最优子结构
         return temp
+```
+
+- C++ 递归：
+```javascript
+
+public class Solution {
+    public int JumpFloor(int target) {
+        if (target <= 0) {
+            return -1;
+        } else if (target == 1) {
+            return 1;
+        } else if (target ==2) {
+            return 2;
+        } else {
+            return  JumpFloor(target-1)+JumpFloor(target-2);
+        }
+    }
+}
+```
+
+### 2、最大子序列和
+
+给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。   
+
+示例:   
+
+输入: [-2,1,-3,4,-1,2,1,-5,4],   
+输出: 6    
+解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。   
+
+https://leetcode-cn.com/problems/maximum-subarray/    
+
+- 思路：
+    利用动态规划的思路解题: 首先寻找最优子问题,[-2,1,-3,4,-1,2,1,-5,4],第一个最优子问题为-2,那么到下一个1时,其最优为当前值或者当前值加上上一个最优值,因而可以得到其递推公式     
+状态转移方程    
+dp[i] = max(nums[i], nums[i] + dp[i - 1])    
+解释    
+
+i代表数组中的第i个元素的位置    
+dp[i]代表从0到i闭区间内，所有包含第i个元素的连续子数组中，总和最大的值    
+
+- python版本
+```python
+nums = [-2,1,-3,4,-1,2,1,-5,4]
+dp = [-2, 1, -2, 4, 3, 5, 6, 1, 5]
+class Solution(object):-- 
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+#        判断边界
+        if len(nums)==0:
+            return 0
+#         定义一个表格进行存储上一个子问题的最优解
+        d=[]
+        d.append(nums[0])    #第一个最优解为第一个元素
+        max_=nums[0]      #返回的最大值
+        for i in range(1,len(nums)):
+            if nums[i]>nums[i]+d[i-1]:
+                d.append(nums[i])
+            else:
+                d.append(nums[i]+d[i-1])
+            if max_<d[i]:
+                max_=d[i]
+        return max_
 ```
