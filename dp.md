@@ -241,6 +241,8 @@ class Solution(object):
 
 如果你可以只使用 O(n) 的额外空间（n 为三角形的总行数）来解决这个问题，那么你的算法会很加分。   
 
+- 思路：
+    从最底层开始，网上相加其相邻最小值，然后min（每个最底层起点所累积的和）
 
 - python版本：
 ```python
@@ -272,3 +274,5 @@ class Solution(object):
                     dp[i].append(min(dp[i-1][j-1],dp[i-1][j])+triangle[i][j])
         return min(dp[len(triangle)-1])
 ```
+
+
