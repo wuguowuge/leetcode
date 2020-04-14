@@ -306,3 +306,110 @@ class Solution:
             p2=p2.next
         return p1
 ```
+
+C++版本
+```javascript
+class Solution {
+public:
+    ListNode* FindKthToTail(ListNode* pListHead, unsigned int k) {
+        if(pListHead==NULL||k==0)
+            return NULL;
+        ListNode*pTail=pListHead,*pHead=pListHead;
+        for(int i=1;i<k;++i)
+        {
+            if(pHead->next!=NULL)
+                pHead=pHead->next;
+            else
+                return NULL;
+        }
+        while(pHead->next!=NULL)
+        {
+            pHead=pHead->next;
+            pTail=pTail->next;
+        }
+        return pTail;
+    }
+};
+```
+
+### 6、翻转链表
+
+
+- 思路：
+    好像没有python的非递归实现。思路很简单：1->2->3->4->5，遍历链表，把1的next置为None，2的next置为1，以此类推，5的next置为4。得到反转链表。需要考虑链表只有1个元素的情况。图中有具体的每步迭代的思路，最后输出pre而不是cur是因为最后一次迭代后cur已经指向None了，而pre是完整的反向链表。   
+```python
+# -*- coding:utf-8 -*-
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution:
+    # 返回ListNode
+    def ReverseList(self, pHead):
+        # write code here
+        if pHead==None or pHead.next==None:
+            return pHead
+        pre = None
+        cur = pHead
+        while cur!=None:
+            tmp = cur.next
+            cur.next = pre
+            pre = cur
+            cur = tmp
+        return pre
+```
+
+### 7、合并两个链表
+
+两个非递减的链表进行合并，保证非递减
+
+python非递归版本：
+pHead始终指向第一个节点，tmp会一直往后移动 tmp = tmp.nex
+
+- 非递归思路：
+     比较两个链表的首结点，哪个小的的结点则合并到第三个链表尾结点，并向前移动一个结点。     
+    步骤一结果会有一个链表先遍历结束，或者没有；    
+    第三个链表尾结点指向剩余未遍历结束的链表；     
+    返回第三个链表首结点；       
+```python
+
+class Solution:
+    # 返回合并后列表
+    def Merge(self, pHead1, pHead2):
+        # write code here
+        #初始化
+        tmp = ListNode(0)
+        pHead = tmp        
+        while pHead1 and pHead2:
+            if pHead1.val < pHead2.val:
+                tmp.next = pHead1
+                pHead1 = pHead1.next
+            else:
+                tmp.next = pHead2
+                pHead2 = pHead2.next
+            tmp = tmp.next
+        if not pHead1:
+            tmp.next = pHead2
+        if not pHead2:
+            tmp.next = pHead1
+        return pHead.next
+```
+
+python递归版本：
+```python
+
+class Solution:
+    # 返回合并后列表
+    def Merge(self, pHead1, pHead2):
+        # write code here
+        if pHead1 is None:
+            return pHead2
+        if pHead2 is None:
+            return pHead1
+        if pHead1.val < pHead2.val:
+            pHead1.next = self.Merge(pHead1.next,pHead2)
+            return pHead1
+        else:
+            pHead2.next = self.Merge(pHead1,pHead2.next)
+            return pHead2
+```
