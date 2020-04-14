@@ -153,7 +153,7 @@ public:
 };
 ```
 
-python版本
+python版本(写的啰嗦，随后修改)
 ```python
 
 # -*- coding:utf-8 -*-
@@ -204,5 +204,105 @@ class Solution:
         return copyHead
 ```
 
+### 4、从尾到头打印
 
+- 方法1：
+    递归    
+    
+```javascript
+/**
+*  struct ListNode {
+*        int val;
+*        struct ListNode *next;
+*        ListNode(int x) :
+*              val(x), next(NULL) {
+*        }
+*  };
+*/
+class Solution {
+public:
+    vector<int> printListFromTailToHead(struct ListNode* head) {
+        vector<int> value;
+        if(head != NULL)
+        {
+            value.insert(value.begin(),head->val);
+            if(head->next != NULL)
+            {
+                vector<int> tempVec = printListFromTailToHead(head->next);
+                if(tempVec.size()>0)
+                value.insert(value.begin(),tempVec.begin(),tempVec.end());  
+            }         
+             
+        }
+        return value;
+    }
+};
+```
+
+- 方法2：堆栈
+
+```javascript
+class Solution {
+public:
+    vector<int> printListFromTailToHead(ListNode* head) {
+        vector<int> value;
+        ListNode *p=NULL;
+        p=head;
+        stack<int> stk;
+        while(p!=NULL){
+            stk.push(p->val);
+            p=p->next;
+        }
+        while(!stk.empty()){
+            value.push_back(stk.top());
+            stk.pop();
+        }
+        return value;
+    }
+};
+```
  
+ python版本（递归，python里面list型添加元素可以直接+[num]）
+ ```python
+# -*- coding:utf-8 -*-
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution: 
+# 返回从尾部到头部的列表值序列，例如[1,2,3] 
+    def printListFromTailToHead(self, listNode): 
+    # write code here 
+    if listNode is None: 
+        return [] 
+    return self.printListFromTailToHead(listNode.next) + [listNode.val]
+    
+```
+
+### 5、链表倒数第k个节点
+
+- 思路：
+    双指针
+ptyhon版本：
+```python
+class Solution:
+    def FindKthToTail(self, head, k):
+        # write code here
+        if head==None or k<=0:
+            return None
+        #设置两个指针，p2指针先走（k-1）步，然后再一起走，当p2为最后一个时，p1就为倒数第k个 数
+        p2=head
+        p1=head
+        #p2先走，走k-1步，如果k大于链表长度则返回 空，否则的话继续走
+        while k>1:
+            if p2.next!=None:
+                p2=p2.next
+                k-=1
+            else:
+                return None
+#两个指针一起 走，一直到p2为最后一个,p1即为所求
+        while p2.next!=None:
+            p1=p1.next
+            p2=p2.next
+        return p1
+```
