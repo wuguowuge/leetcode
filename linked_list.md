@@ -413,3 +413,41 @@ class Solution:
             pHead2.next = self.Merge(pHead1,pHead2.next)
             return pHead2
 ```
+
+### 8、二叉搜索树和双向链表
+
+- 思路：
+    中序遍历即可。只需要记录一个pre指针即可；     
+    
+C++版本：
+```javascript
+class Solution {
+public:
+    TreeNode* Convert(TreeNode* pRootOfTree)
+    {
+        if(pRootOfTree == nullptr) return nullptr;
+        TreeNode* pre = nullptr;
+         
+        convertHelper(pRootOfTree, pre);
+         
+        TreeNode* res = pRootOfTree;
+        while(res ->left)
+            res = res ->left;
+        return res;
+    }
+     
+    void convertHelper(TreeNode* cur, TreeNode*& pre)
+    {
+        if(cur == nullptr) return;
+         
+        convertHelper(cur ->left, pre);
+         
+        cur ->left = pre;
+        if(pre) pre ->right = cur;
+        pre = cur;
+         
+        convertHelper(cur ->right, pre);
+         
+    }
+};
+```
