@@ -212,7 +212,6 @@ public:
 };
 ```
 
-
 ### 4、镜像/对称二叉树
 
 - 思路:
@@ -593,4 +592,60 @@ class Solution:
         return self.DoesTree1haveTree2(pRoot1.left, pRoot2.left) and self.DoesTree1haveTree2(pRoot1.right, pRoot2.right)
 ```  
   
-### 10、
+  
+### 10、二叉搜索树的后序遍历
+
+输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
+
+C++版本：
+- 思路：
+    BST的后序序列的合法序列是，对于一个序列S，最后一个元素是x （也就是根），如果去掉最后一个元素的序列为T，那么T满足：T可以分成两段，前一段（左子树）小于x，后一段（右子树）大于x，且这两段（子树）都是合法的后序序列。完美的递归定义 : ) 。 
+```javascript
+class Solution {
+    bool judge(vector<int>& a, int l, int r){
+        if(l >= r) return true;
+        int i = r;
+        while(i > l && a[i - 1] > a[r]) --i;
+        for(int j = i - 1; j >= l; --j) if(a[j] > a[r]) return false;
+        return judge(a, l, i - 1) && (judge(a, i, r - 1));
+    }
+public:
+    bool VerifySquenceOfBST(vector<int> a) {
+        if(!a.size()) return false;
+        return judge(a, 0, a.size() - 1);
+    }
+};
+```
+
+python版本：
+
+- 思路：
+
+    后序遍历 的序列中，最后一个数字是树的根节点 ，数组中前面的数字可以分为两部分：第一部分是左子树节点 的值，都比根节点的值小；第二部分 是右子树 节点的值，都比 根 节点 的值大，后面用递归分别判断前后两部分 是否 符合以上原则
+
+```python
+class Solution:
+    def VerifySquenceOfBST(self, sequence):
+        # write code here
+        if sequence==None or len(sequence)==0:
+            return False
+        length=len(sequence)
+        root=sequence[length-1]
+        # 在二叉搜索 树中 左子树节点小于根节点
+        for i in range(length):
+            if sequence[i]>root:
+                break
+        # 二叉搜索树中右子树的节点都大于根节点
+        for j  in range(i,length):
+            if sequence[j]<root:
+                return False
+        # 判断左子树是否为二叉树
+        left=True
+        if  i>0:
+            left=self.VerifySquenceOfBST(sequence[0:i])
+        # 判断 右子树是否为二叉树
+        right=True
+        if i<length-1:
+            right=self.VerifySquenceOfBST(sequence[i:-1])
+        return left and right
+```
