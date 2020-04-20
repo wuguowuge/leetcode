@@ -687,7 +687,7 @@ public:
      弹出结点，每一轮递归返回到父结点时，当前路径也应该回退一个结点；    
      详情链接：https://blog.csdn.net/u010059070/article/details/75530070
      
- ```python
+ ```javascript
 /*
 struct TreeNode {
 	int val;
