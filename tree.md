@@ -653,3 +653,119 @@ class Solution:
 ### 11、二叉树中和为某一值的路径
 输入一颗二叉树的根节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)
 
+-  思路：
+    带记忆的DFS来解决，分享一个典型解法(没细看，dfs随后复习)
+
+```javascript
+class Solution {
+public:
+    vector<vector<int> > FindPath(TreeNode* root,int expectNumber) {
+        vector<vector<int>> ret;
+        vector<int> trace;
+        if(root)
+            dfs(root,expectNumber,ret,trace);
+        return ret;
+    }
+    void dfs(TreeNode* root,int s,vector<vector<int>> &ret,vector<int> &trace) {
+        trace.push_back(root->val);
+        if(!root->left&&!root->right) {
+            if(s==root->val)
+                ret.push_back(trace);
+        }
+        if(root->left)
+            dfs(root->left,s-root->val,ret,trace);
+        if(root->right)
+            dfs(root->right,s-root->val,ret,trace);
+        trace.pop_back();
+    }
+};
+```
+
+- 思路：
+     递归先序遍历树， 把结点加入路径；    
+     若该结点是叶子结点则比较当前路径和是否等于期待和；      
+     弹出结点，每一轮递归返回到父结点时，当前路径也应该回退一个结点；    
+     详情链接：https://blog.csdn.net/u010059070/article/details/75530070
+     
+ ```python
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+class Solution {
+public:
+    void findAllPath
+        (TreeNode* root,int expectNumber,int currentSum,vector<vector<int> >& allpath,vector<int>& path){
+        
+        //记录当前访问的结点
+        path.push_back(root->val);
+        //记录访问到当前节点 所有结点的和
+        currentSum+=root->val;
+        
+        //判断是否为叶子结点 true-是
+        bool isLeaf=root->left==NULL && root->right==NULL;
+        
+        //如果为叶子结点， 判断路径的和是否满足要求，满足，保存该路径
+        if(currentSum==expectNumber && isLeaf)
+         		 allpath.push_back(path);
+        
+        if(root->left!=NULL)
+            findAllPath(root->left,expectNumber,currentSum,allpath,path);
+        if(root->right!=NULL)
+            findAllPath(root->right,expectNumber,currentSum,allpath,path);
+            
+        //如果是叶子结点又不满足要求，退回到父结点，删除当前节点
+        path.pop_back();
+ 
+    }
+    
+    vector<vector<int> > FindPath(TreeNode* root,int expectNumber) {
+ 
+        vector<vector<int> > allpath;
+        vector<int> path;
+        //边界条件
+        if(root==NULL)
+            return allpath;
+        int currentSum=0;
+        findAllPath(root,expectNumber,currentSum,allpath,path);
+        return allpath;
+    }
+};
+```
+           
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
